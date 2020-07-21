@@ -11,98 +11,150 @@
 	<style>
 		html { height: 100% }
 		body { height: 100%; margin: 0; padding: 0;}
-		.map { height: 100% }
+		.map { height: 100%; 
+		}
+		.leaflet-tile-pane{
+			filter: saturate(0.2); 
+		}
 	</style>
 	<!--Fork Me on Github ribbon, we're using the awsome version from simonwhitaker available at https://github.com/simonwhitaker/github-fork-ribbon-css  -->
 	<link rel="stylesheet" href="css/gh-fork-ribbon.css" />
 	<!--[if IE]>
 		<link rel="stylesheet" href="css/gh-fork-ribbon.ie.css" />
 	<![endif]-->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
 </head>
 <body>
-	<div class="github-fork-ribbon-wrapper left">
-		<div class="github-fork-ribbon">
-			<a href="https://github.com/leaflet-extras/leaflet-providers">Fork me on GitHub</a>
-		</div>
-	</div>
 	<div id="map" class="map"></div>
 	<script src="http://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="leaflet-providers.js"></script>
 	<script src="bounce.js"></script>
+	<script type="text/javascript" src="SmoothWheelZoom.js"></script>
 	<script>
+var init_zoom = 7
+var zoom_counter = init_zoom
+var delay_counter = 0
+var delay_interval
+var original_center = [62,69]
 		var map = L.map('map', {
-			center: [37.2336805,-115.8101785],
-			zoom: 7,
+  scrollWheelZoom: false, // disable original zoom function
+  smoothWheelZoom: true,  // enable smooth zoom 
+  smoothSensitivity: 1,   // zoom speed. default is 1
+			center: original_center,
+			zoom: 6,
 			zoomControl: false
 		});
 
 		var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+// map.on('mousedown', function(e){
+// 	var clicked_center = e.latlng
+// 	delay_interval = setTimeout(function(e){
+// 		map.flyTo(clicked_center, 14, {
+// 		        animate: true,
+// 		        duration: 15
+// 		});
+// 	},300)
+// });
+// map.on('mouseup', function(e){
+// 	clearTimeout(delay_interval)
+// 	map.stop()
+// 		map.flyTo(original_center, init_zoom , {
+// 		        animate: true,
+// 		        duration: 15
+// 		});
+// })
+var latLng_array_whole = []
+var marker_array_whole = []
+var icon_array_whole = []
+var pos_array_whole = []
+var round_icon = ['cloud1','cloud2','cloud3','cloud4','cloud5','cloud8','cloud6','cloud9','cloud7','cloud10','cloud11','cloud12','cloud13','cloud14']
+var round_pos =[[-250,-450],[100,-450],[100,-250],[-150,-250],[-350,-250],[100,-450],[100,750],[-0,-350],[-250,550],[-250,-250],[-450,150],[-50,150],[-150,-450],[-750,-250]]
+tower(60.85,69,0,200)
+// tower(37,-117,0,100)
+// tower(42,-112,0,100)
+var round_pos_extra = [[    353, 735],[    161, 757],[30.8594, 220],[453.152, 386.66],[430.488, 160.359],[188.848, 779.176],[233.102, -127.117],[44.6016, 711.414],[401.426, -473.5],[283.996, 459.988],[283.996, 459.988],[-74.562, 405.809],[252.961, -283.715],[542.332, -269.535]]
+	var icon_array = []
+	for (var i = 0; i < 200; i++) {
+	// for (var i = 100; i >= 0; i--) {
+		icon_array.push( L.icon({
+	   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
+	   		iconSize:     [200, 200], // size of the icon
+	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+	   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		})); 
+		if(i == 200 - 1){
+			for (var k =round_icon.length; k >= 1; k--) {
+				icon_array[200-(k*10)].options.iconUrl = 'img/'+round_icon[k-1]+'.png'
+	   			icon_array[200-(k*10)].options.iconSize = [500]// size of the icon
+	   			icon_array[200-(k*10)].options.iconAnchor = [round_pos[k-1][1] + round_pos_extra[k-1][1], round_pos[k-1][0] + round_pos_extra[k-1][0]]
+				// icon_array[k]
+			}
+		}
+	}
+function tower(a,b,init_num,marker_counter){
+	var latLng_array = []
+	var marker_array = []
+	var pos_array = []
+	var init_latlng = [a,b]
+	// var marker_counter = 100
+	var timeout_counter = marker_counter
+	for (var i = marker_counter; i >= 0; i--) {
+		latLng_array.push(new L.latLng([init_latlng[0]+(i/45), init_latlng[1]+(i/50)]));
+	}
+	for (var i = marker_counter; i >= 0; i--) {
+		delay(i)
+	}
+	function delay(i) {
+		setTimeout(() => {
+			console.log(icon_array[i])
+			if(timeout_counter>= 0){
+				marker_counter--
+				marker_array.push(L.marker(latLng_array[i],{
+				draggable:'false',
+				icon: icon_array[i],
+			    	bounceOnAdd: true,
+			    	bounceOnAddOptions: {duration: 500, height: 100, loop: 1}
+			    }).addTo(map))
+			}
+			if(i == 0){
+				console.log('----------------')
+				latLng_array_whole.push(latLng_array)
+				marker_array_whole.push(marker_array)
+				icon_array_whole.push(icon_array)
+				pos_array_whole.push(pos_array)
+			}
+			for (var k = marker_array.length - 1; k >= 0; k--) {
+				marker_array[k].setZIndexOffset(100000 - pos_array[k].y*10);
+			}
+		}, (marker_counter-i)*10);
+	}
 
-		var baseLayers = {
-			'OpenStreetMap Default': defaultLayer,
-			'OpenStreetMap German Style': L.tileLayer.provider('OpenStreetMap.DE'),
-			'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-			'Thunderforest OpenCycleMap': L.tileLayer.provider('Thunderforest.OpenCycleMap'),
-			'Thunderforest Transport': L.tileLayer.provider('Thunderforest.Transport'),
-			'Thunderforest Landscape': L.tileLayer.provider('Thunderforest.Landscape'),
-			'Hydda Full': L.tileLayer.provider('Hydda.Full'),
-			'Stamen Toner': L.tileLayer.provider('Stamen.Toner'),
-			'Stamen Terrain': L.tileLayer.provider('Stamen.Terrain'),
-			'Stamen Watercolor': L.tileLayer.provider('Stamen.Watercolor'),
-			'Jawg Streets': L.tileLayer.provider('Jawg.Streets'),
-			'Jawg Terrain': L.tileLayer.provider('Jawg.Terrain'),
-			'Esri WorldStreetMap': L.tileLayer.provider('Esri.WorldStreetMap'),
-			'Esri DeLorme': L.tileLayer.provider('Esri.DeLorme'),
-			'Esri WorldTopoMap': L.tileLayer.provider('Esri.WorldTopoMap'),
-			'Esri WorldImagery': L.tileLayer.provider('Esri.WorldImagery'),
-			'Esri WorldTerrain': L.tileLayer.provider('Esri.WorldTerrain'),
-			'Esri WorldShadedRelief': L.tileLayer.provider('Esri.WorldShadedRelief'),
-			'Esri WorldPhysical': L.tileLayer.provider('Esri.WorldPhysical'),
-			'Esri OceanBasemap': L.tileLayer.provider('Esri.OceanBasemap'),
-			'Esri NatGeoWorldMap': L.tileLayer.provider('Esri.NatGeoWorldMap'),
-			'Esri WorldGrayCanvas': L.tileLayer.provider('Esri.WorldGrayCanvas'),
-			'Geoportail France Maps': L.tileLayer.provider('GeoportailFrance'),
-			'Geoportail France Orthos': L.tileLayer.provider('GeoportailFrance.orthos'),
-			'Geoportail France classic maps': L.tileLayer.provider('GeoportailFrance.ignMaps')
-		};
+	map.on('zoomend', adjustZindex);
+	adjustZindex();
 
-		var overlayLayers = {
-			'OpenSeaMap': L.tileLayer.provider('OpenSeaMap'),
-			'OpenWeatherMap Clouds': L.tileLayer.provider('OpenWeatherMap.Clouds'),
-			'OpenWeatherMap CloudsClassic': L.tileLayer.provider('OpenWeatherMap.CloudsClassic'),
-			'OpenWeatherMap Precipitation': L.tileLayer.provider('OpenWeatherMap.Precipitation'),
-			'OpenWeatherMap PrecipitationClassic': L.tileLayer.provider('OpenWeatherMap.PrecipitationClassic'),
-			'OpenWeatherMap Rain': L.tileLayer.provider('OpenWeatherMap.Rain'),
-			'OpenWeatherMap RainClassic': L.tileLayer.provider('OpenWeatherMap.RainClassic'),
-			'OpenWeatherMap Pressure': L.tileLayer.provider('OpenWeatherMap.Pressure'),
-			'OpenWeatherMap PressureContour': L.tileLayer.provider('OpenWeatherMap.PressureContour'),
-			'OpenWeatherMap Wind': L.tileLayer.provider('OpenWeatherMap.Wind'),
-			'OpenWeatherMap Temperature': L.tileLayer.provider('OpenWeatherMap.Temperature'),
-			'OpenWeatherMap Snow': L.tileLayer.provider('OpenWeatherMap.Snow'),
-			'Geoportail France Parcels': L.tileLayer.provider('GeoportailFrance.parcels')
-		};
-
-L.control.layers(baseLayers, overlayLayers, {collapsed: false}).addTo(map);
-
-
-var latLng_array = []
-var marker_array = []
-var icon_array = []
-var pos_array = []
-var marker_counter = 100
-var timeout_counter = marker_counter
-for (var i = 100; i >= 0; i--) {
-	icon_array.push( L.icon({
-   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
-   		shadowUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
-
-   		iconSize:     [200, 200], // size of the icon
-   		shadowSize:   [200, 200], // size of the shadow
-   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-   		shadowAnchor: [100, 100],  // the same for the shadow
-   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-	})); 
+	// adjust zIndex
+	function adjustZindex() {
+		pos_array = []
+		for (var i = marker_counter; i >= 0; i--) {
+			pos_array.push(map.latLngToLayerPoint(latLng_array[i]).round());
+			if(i==0){
+				console.log(pos_array[i])
+				for (var k = marker_array.length - 1; k >= 0; k--) {
+					marker_array[k].setZIndexOffset(1000 - pos_array[k].y);
+				}
+			}
+		}
+	}
 }
+	
+
+
+
+
+
 function pad_with_zeroes(number, length) {
     var my_string = '' + number;
     while (my_string.length < length) {
@@ -110,74 +162,6 @@ function pad_with_zeroes(number, length) {
     }
     return my_string;
 }
-for (var i = 100; i >= 0; i--) {
-	latLng_array.push(new L.latLng([36.75+(i/50), -116.45+(i/50)]));
-}
-
-	setTimeout(function(){
-		if(timeout_counter>= 0){
-			marker_counter--
-			marker_array.push(L.marker(latLng_array[i],{
-			icon: icon_array[i],
-		    	bounceOnAdd: true,
-		    	bounceOnAddOptions: {duration: 500, height: 100, loop: 1}
-		    }))
-		    	console.log(marker_array)
-		    	console.log(i)
-		    if(i==0){
-				for (var j = marker_array.length - 1; j >= 0; j--) {
-					marker_array[j].addTo(map)
-				}
-		    }
-		}
-		
-    },0)
-
-
-for (var i = 100; i >= 0; i--) {
-  delay(i)
-}
-function delay(i) {
-  setTimeout(() => {
-		if(timeout_counter>= 0){
-			marker_counter--
-			marker_array.push(L.marker(latLng_array[i],{
-			draggable:'true',
-			icon: icon_array[i],
-		    	bounceOnAdd: true,
-		    	bounceOnAddOptions: {duration: 500, height: 100, loop: 1}
-		    }).addTo(map))
-		    	console.log(marker_array)
-		    	console.log(i)
-		}
-
-			for (var k = marker_array.length - 1; k >= 0; k--) {
-				marker_array[k].setZIndexOffset(100000 - pos_array[k].y*10);
-			}
-  }, (100-i)*100);
-}
-
-map.on('zoomend', adjustZindex);
-adjustZindex();
-
-// adjust zIndex
-function adjustZindex() {
-	pos_array = []
-	for (var i = 100; i >= 0; i--) {
-		pos_array.push(map.latLngToLayerPoint(latLng_array[i]).round());
-		if(i==0){
-			console.log(pos_array[i])
-			for (var k = marker_array.length - 1; k >= 0; k--) {
-				marker_array[k].setZIndexOffset(1000 - pos_array[k].y);
-			}
-		}
-	}
-}
-
-
-
-
-
 map.on('click', function(e) {
     location.hash = e.latlng.lat + ", " + e.latlng.lng
     console.log(e.latlng.lat + ", " + e.latlng.lng)
