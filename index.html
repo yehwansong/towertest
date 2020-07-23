@@ -353,12 +353,12 @@ function move_marker(clicked_center){
 		move_marker_counter++
 }
 var down = false
-$('#map').on('touchstart mousedown', function(e) {
-	console.log(e)
-    e.preventDefault();
-    console.log('done!!')
-    down = true
-});
+// $('#map').on('touchstart mousedown', function(e) {
+// 	console.log(e)
+//     e.preventDefault();
+//     console.log('done!!')
+//     down = true
+// });
 $('#map').on('touchmove mousemove', function(e) {
     e.preventDefault();
     if(down){
