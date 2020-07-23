@@ -146,24 +146,6 @@ var original_center = [65,290]
 
 		}
 
-var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
-map.on('touchstart mousedown', function(e){
-	move_marker_counter = 0
-	var clicked_center = e.latlng
-	console.log(clicked_center)
-	delay_interval_1 = setTimeout(function(e){ 
-		move_marker(clicked_center)
-	},300)
-});
-function move_marker(clicked_center){
-		console.log(move_marker_counter)
-    	var newLatLng = new L.LatLng(clicked_center.lat+(move_marker_counter/45)*2,clicked_center.lng+(move_marker_counter/50)*2);
-    	marker_array_whole[move_marker_counter].setLatLng(newLatLng);
-    	delay_interval_2 = setTimeout(function(){
-    		move_marker(clicked_center)
-    	},100)
-		move_marker_counter++
-}
 map.on('touchend mouseup', function(e){
 	clearTimeout(delay_interval_1)
 	clearTimeout(delay_interval_2)
@@ -353,8 +335,26 @@ function getMatrix(element) {
     const transform = values[1].split(',').map(parseInt);
     return([-1*values[1].split(',')[0].replace("px", ""),-1*values[1].split(',')[1].replace("px", "")])
 }
+var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+map.on('touchstart mousedown', function(e){
+	console.log(e)
+	move_marker_counter = 0
+	var clicked_center = e.latlng
+	delay_interval_1 = setTimeout(function(e){ 
+		move_marker(clicked_center)
+	},300)
+});
+function move_marker(clicked_center){
+    	var newLatLng = new L.LatLng(clicked_center.lat+(move_marker_counter/45)*2,clicked_center.lng+(move_marker_counter/50)*2);
+    	marker_array_whole[move_marker_counter].setLatLng(newLatLng);
+    	delay_interval_2 = setTimeout(function(){
+    		move_marker(clicked_center)
+    	},100)
+		move_marker_counter++
+}
 var down = false
 $('#map').on('touchstart mousedown', function(e) {
+	console.log(e)
     e.preventDefault();
     console.log('done!!')
     down = true
