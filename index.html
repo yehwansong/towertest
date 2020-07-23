@@ -147,7 +147,7 @@ var original_center = [65,290]
 		}
 
 var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
-map.on('mousedown', function(e){
+map.on('touchstart mousedown', function(e){
 	move_marker_counter = 0
 	var clicked_center = e.latlng
 	console.log(clicked_center)
@@ -164,7 +164,7 @@ function move_marker(clicked_center){
     	},100)
 		move_marker_counter++
 }
-map.on('mouseup', function(e){
+map.on('touchend mouseup', function(e){
 	clearTimeout(delay_interval_1)
 	clearTimeout(delay_interval_2)
 })
