@@ -29,6 +29,19 @@
     pointer-events: none !important
 
 }
+.earth{
+        display: block;
+        position: absolute;
+        z-index: 1000000;
+        width: 10vw;
+        height: 10vw;
+        background-image: url(img/earth.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        display: block;
+}
     .leaflet-marker-pane *{
     pointer-events: none !important
 
@@ -59,10 +72,7 @@
     .leaflet-pane.leaflet-marker-pane>img:nth-child(12),
     .leaflet-pane.leaflet-marker-pane>img:nth-child(13),
     .leaflet-pane.leaflet-marker-pane>img:nth-child(18),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(19),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(24),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(25),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(30){
+    .leaflet-pane.leaflet-marker-pane>img:nth-child(19){
     	z-index: 100000 !important;
     }
     .leaflet-pane.leaflet-marker-pane>img:nth-child(2 ),
@@ -70,12 +80,11 @@
     .leaflet-pane.leaflet-marker-pane>img:nth-child(8 ),
     .leaflet-pane.leaflet-marker-pane>img:nth-child(11),
     .leaflet-pane.leaflet-marker-pane>img:nth-child(14),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(17),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(20),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(23),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(26),
-    .leaflet-pane.leaflet-marker-pane>img:nth-child(29){
+    .leaflet-pane.leaflet-marker-pane>img:nth-child(17){
     	z-index: 95000 !important;
+    }
+    .leaflet-pane.leaflet-marker-pane>img:nth-child(20){
+    	pointer-events: all !important
     }
 	</style>
 	<!--Fork Me on Github ribbon, we're using the awsome version from simonwhitaker available at https://github.com/simonwhitaker/github-fork-ribbon-css  -->
@@ -90,8 +99,8 @@
 </head>
 <body>
 	<div id="map" class="map"></div>
-	<div class="button button_in">+</div>
-	<div class="button button_out">-</div>
+	<div class="button button_in"></div>
+	<div class="button button_out"></div>
 	<script src="http://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="leaflet-providers.js"></script>
 	<script src="bounce.js"></script>
@@ -108,7 +117,7 @@ var original_center = [65,290]
   			smoothWheelZoom: true,  // enable smooth zoom 
   			smoothSensitivity: 1,   // zoom speed. default is 1
 			center: original_center,
-			zoom: 5.8,
+			zoom: 5.5,
 			zoomControl: false
 		});
 
@@ -122,19 +131,19 @@ map.on('mousedown', function(e){
 	},300)
 });
 function move_marker(clicked_center){
-		move_marker_counter++
 		console.log(move_marker_counter)
     	var newLatLng = new L.LatLng(clicked_center.lat+(move_marker_counter/45)*2,clicked_center.lng+(move_marker_counter/50)*2);
     	marker_array_whole[move_marker_counter].setLatLng(newLatLng);
     	delay_interval_2 = setTimeout(function(){
     		move_marker(clicked_center)
     	},100)
+		move_marker_counter++
 }
 map.on('mouseup', function(e){
 	clearTimeout(delay_interval_1)
 	clearTimeout(delay_interval_2)
 })
-
+$('.leaflet-control-attribution.leaflet-control').html('Idiotapeofficial | Future That Never Comes')
 
  // button_in"
  // button_out
@@ -161,7 +170,7 @@ $('.button_out').on('touchend mouseout', function(e) {
 	map.stop()
 });
 	var icon_array = []
-	for (var i = 0; i < 200; i++) {
+	for (var i = 0; i < 210; i++) {
 	// for (var i = 100; i >= 0; i--) {
 		icon_array.push( L.icon({
 	   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
@@ -170,19 +179,6 @@ $('.button_out').on('touchend mouseout', function(e) {
 	   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		})); 
 		if(i == 200 - 1){tower(original_center[0]-5,original_center[1]-4,0,200)
-			// for (var a = 5; a >= 0; a--) {
-			// 	console.log('2')
-			// 			icon_array[182-(a*10)].options.iconUrl = 'img/cloud0.png'
-			//    			icon_array[182-(a*10)].options.iconSize = [500]// size of the icon
-			//    			icon_array[182-(a*10)].options.iconAnchor = [1000-350*a,800+-150*a]
-			// }
-			// for (var k =round_icon.length; k >= 1; k--) {
-			// 	console.log('3')
-			// 	icon_array[200-(k*10)].options.iconUrl = 'img/'+round_icon[k-1]+'.png'
-	  //  			icon_array[200-(k*10)].options.iconSize = [500]// size of the icon
-	  //  			icon_array[200-(k*10)].options.iconAnchor = [round_pos[k-1][1] + round_pos_extra[k-1][1], round_pos[k-1][0] + round_pos_extra[k-1][0]]
-			// 	// icon_array[k]
-			// }
 		}
 	}
 	var cloud_icon_array_1 = []
@@ -313,6 +309,20 @@ $('.button_out').on('touchend mouseout', function(e) {
 	    	bounceOnAdd: false
 	    }).addTo(map)
 	}
+	var pin = L.marker([61.06360142433257,300],{
+	draggable:'false',
+	icon: L.icon({
+	   		iconUrl: 'img/pin.png',
+	   		iconSize:     [14], // size of the icon
+	   		iconAnchor:   [7, 7], // point of the icon which will correspond to marker's location
+		}),
+    	bounceOnAdd: false
+    })
+    pin.addTo(map)
+$('.leaflet-pane.leaflet-marker-pane>img:nth-child(20)').click(function(){
+	alert('lhe')
+        window.open('https://www.instagram.com/idiotapeofficial/');
+    })
 
 function getMatrix(element) {
     const values = element.style.transform.split(/\w+\(|\);?/);
@@ -335,6 +345,8 @@ $('#map').on('touchmove mousemove', function(e) {
 $('#map').on('touchend mouseup', function(e) {
     e.preventDefault();
     down = false
+    	var element =document.getElementsByClassName('leaflet-map-pane')[0]
+    	$('#sky').css({'transform':'translate3d('+getMatrix(element)[0]+'px,'+getMatrix(element)[1]+'px, 0px)'})
     console.log('done!!')
 });
 
@@ -386,11 +398,17 @@ function tower(a,b,init_num,marker_counter){
 	}
 }
 	
+$('.leaflet-map-pane').append('<div id="sky"><a href="https://www.instagram.com/idiotapeofficial/" target="_blank" class="earth"></div>')
 
 
-
-	$('.leaflet-map-pane').append('<div id="sky"></div>')
-
+var dt = new Date();
+var time = ((dt.getHours()*60+dt.getMinutes())%(12*60))/(12*60);
+console.log(time)
+function map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+$('.earth').css({'left':map_range(time, 0, 1, 40, 98) + 'vw'})
+$('.earth').css({'top':map_range(time, 0, 1, 18, -5) + 'vw'})
 
 
 
@@ -403,7 +421,7 @@ function pad_with_zeroes(number, length) {
     return my_string;
 }
 map.on('click', function(e) {
-    location.hash = e.latlng.lat + ", " + e.latlng.lng
+    location.hash = e.latlng.lng
     console.log(e.latlng.lat + ", " + e.latlng.lng)
 });
 		// resize layers control to fit into view.
