@@ -384,27 +384,8 @@ function tower(a,b,init_num,marker_counter){
 	for (var i = marker_counter; i >= 0; i--) {
 		latLng_array.push(new L.latLng([init_latlng[0]+(i/45)*2, init_latlng[1]+(i/50)*2]));
 	}
-	if(!isMobile){
-		for (var i = marker_counter; i >= 0; i--) {
-			delay(i)
-		}
-	}else{
-		for (var i = marker_counter; i >= 0; i--) {
-				marker_array.push(L.marker(latLng_array[i],{
-				draggable:'false',
-				icon: icon_array[i],
-			    	bounceOnAdd: false
-			    }).addTo(map))
-			for (var k = marker_array.length - 1; k >= 0; k--) {
-				marker_array[k].setZIndexOffset(100000 - pos_array[k].y*10);
-			}
-			if(i == 0){
-				for (var j = 29; j >= 0; j--) {
-					$('.leaflet-marker-pane img').eq(j).css({'z-index':$('.leaflet-marker-pane img').eq(29 + 10 + 3*j).css("z-index")})
-				}
-				marker_array_whole = marker_array
-			}
-		}
+	for (var i = marker_counter; i >= 0; i--) {
+		delay(i)
 	}
 	function delay(i) {
 		setTimeout(() => {
