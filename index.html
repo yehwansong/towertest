@@ -156,9 +156,10 @@ map.on('touchstart mousedown', function(e){
 	},300)
 });
 function move_marker(clicked_center){
-		console.log(move_marker_counter)
+	console.log(clicked_center)
     	var newLatLng = new L.LatLng(clicked_center.lat+(move_marker_counter/45)*2,clicked_center.lng+(move_marker_counter/50)*2);
     	marker_array_whole[move_marker_counter].setLatLng(newLatLng);
+
     	delay_interval_2 = setTimeout(function(){
     		move_marker(clicked_center)
     	},100)
@@ -196,109 +197,215 @@ $('.button_out').on('touchend mouseout', function(e) {
 });
 	var icon_array = []
 	for (var i = 0; i < 210; i++) {
-	// for (var i = 100; i >= 0; i--) {
-		icon_array.push( L.icon({
-	   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
-	   		iconSize:     [200, 200], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-	   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-		})); 
-		if(i == 200 - 1){tower(original_center[0]-5,original_center[1]-4,0,200)
+
+		if(!isMobile){
+			icon_array.push( L.icon({
+		   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
+		   		iconSize:     [200, 200], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+		   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+			})); 
+			if(i == 200 - 1){tower(original_center[0]-5,original_center[1]-4,0,200)
+			}
+		}else{
+			icon_array.push( L.icon({
+		   		iconUrl: 'tower_mobile/Untitled'+pad_with_zeroes(i, 4)+'.png',
+		   		iconSize:     [200, 200], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+		   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+			})); 
+			if(i == 200 - 1){tower(original_center[0]-5,original_center[1]-4,0,200)
+			}
 		}
 	}
-	var cloud_icon_array_1 = []
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud14.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud14.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_1.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-	var cloud_icon_array_2 = []
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud16.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud14.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud16.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_2.push( L.icon({
-	   		iconUrl: 'img/cloud15.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-	var cloud_icon_array_3 = []
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud15.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud15.png',
-	   		iconSize:     [500], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud14.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud0.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud15.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
-		cloud_icon_array_3.push( L.icon({
-	   		iconUrl: 'img/cloud16.png',
-	   		iconSize:     [600], // size of the icon
-	   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
-		}))
+	if(!isMobile){
+		var cloud_icon_array_1 = []
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+		var cloud_icon_array_2 = []
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+		var cloud_icon_array_3 = []
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+		}else{var cloud_icon_array_1 = []
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_1.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+		var cloud_icon_array_2 = []
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_2.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+		var cloud_icon_array_3 = []
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [500], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud14.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud0.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud15.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))
+			cloud_icon_array_3.push( L.icon({
+		   		iconUrl: 'img_mobile/cloud16.png',
+		   		iconSize:     [600], // size of the icon
+		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
+			}))}
+		
 	for (var q = 1; q >= 0; q--) {
 		L.marker([original_center[0]-2-(2*q), original_center[1]-24+(5*q)],{
 		draggable:'false',
@@ -358,6 +465,16 @@ $('#map').on('touchstart mousedown', function(e) {
     e.preventDefault();
     console.log('done!!')
     down = true
+
+
+    if(isMobile){
+    	console.log(marker_array_whole)
+		move_marker_counter = 0
+		var clicked_center = e.latlng
+		delay_interval_1 = setTimeout(function(e){ 
+			move_marker(map.getCenter())
+		},300)
+	}
 });
 $('#map').on('touchmove mousemove', function(e) {
     e.preventDefault();
@@ -372,6 +489,11 @@ $('#map').on('touchend mouseup', function(e) {
     	var element =document.getElementsByClassName('leaflet-map-pane')[0]
     	$('#sky').css({'transform':'translate3d('+getMatrix(element)[0]+'px,'+getMatrix(element)[1]+'px, 0px)'})
     console.log('done!!')
+
+    if(isMobile){
+		clearTimeout(delay_interval_1)
+		clearTimeout(delay_interval_2)
+	}
 });
 
 
@@ -400,13 +522,13 @@ function tower(a,b,init_num,marker_counter){
 			for (var k = marker_array.length - 1; k >= 0; k--) {
 				marker_array[k].setZIndexOffset(100000 - pos_array[k].y*10);
 			}
+			marker_array_whole = marker_array
 			if(i == 0){
 				for (var j = 29; j >= 0; j--) {
 					$('.leaflet-marker-pane img').eq(j).css({'z-index':$('.leaflet-marker-pane img').eq(29 + 10 + 3*j).css("z-index")})
 				}
-				marker_array_whole = marker_array
 			}
-		}, (marker_counter-i)*80);
+		}, (marker_counter-i)*30);
 	}
 
 	map.on('zoomend', adjustZindex);
