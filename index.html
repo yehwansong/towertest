@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Leaflet Provider Demo</title>
+	<title>FutureThatNeverComes</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -176,7 +176,7 @@ $('.button_in').on('touchstart mouseover', function(e) {
     e.preventDefault();
 	map.flyTo(L.latLng(map.getCenter()), 20 , {
 	        animate: true,
-	        duration: 15
+	        duration: 25
 	});
 });
 $('.button_in').on('touchend mouseout', function(e) {
@@ -338,14 +338,13 @@ $('.button_out').on('touchend mouseout', function(e) {
 	draggable:'false',
 	icon: L.icon({
 	   		iconUrl: 'img/pin.png',
-	   		iconSize:     [14], // size of the icon
+	   		iconSize:     [25], // size of the icon
 	   		iconAnchor:   [7, 7], // point of the icon which will correspond to marker's location
 		}),
     	bounceOnAdd: false
     })
     pin.addTo(map)
 $('.leaflet-pane.leaflet-marker-pane>img:nth-child(20)').click(function(){
-	alert('lhe')
         window.open('https://www.instagram.com/idiotapeofficial/');
     })
 
