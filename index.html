@@ -197,10 +197,76 @@ $('.button_out').on('touchend mouseout', function(e) {
 });
 	var icon_array = []
 	for (var i = 0; i < 210; i++) {
+		var num
+if( i >= 0 && i <= 2  ){num = 0}
+if( i>= 3  && i <= 7  ){num = 3 }
+if( i>= 8  && i <= 13 ){num = 8 }
+if( i>= 14 && i <= 18 ){num = 14 }
+if( i== 19 ){num = 19 }
+if( i>= 20 && i <= 23 ){num = 23 }
+if( i>= 24 && i <= 25 ){num = 24 }
+if( i== 26 ){num = 26 }
+if( i>= 27 && i <= 29 ){num = 27 }
+if( i>= 30 && i <= 32 ){num = 30 }
+if( i>= 33 && i <= 34 ){num = 33 }
+if( i>= 35 && i <= 40 ){num = 38 }
+if( i>= 41 && i <= 44 ){num = 41 }
+if( i>= 45 && i <= 49 ){num = 46 }
+if( i>= 50 && i <= 55 ){num = 50 }
+if( i== 56 ){num = 71 }
+if( i>= 57 && i <= 62 ){num = 57 }
+if( i>= 63 && i <= 64 ){num = 63 }
+if( i== 65 ){num = 71 }
+if( i>= 66 && i <= 70 ){num = 66 }
+if( i== 71 ){num = 71 }
+if( i== 72 ){num = 0  }
+if( i>= 73 && i <= 79 ){num = 73 }
+if( i== 80 ){num = 0  }
+if( i== 81 ){num = 81 }
+if( i== 82 ){num = 82 }
+if( i>= 83 && i <= 88 ){num = 83 }
+if( i== 89 ){num = 89 }
+if( i== 90 ){num = 83 }
+if( i== 91 ){num = 91 }
+if( i== 92 ){num = 92 }
+if( i== 93 ){num = 93 }
+if( i== 94 ){num = 94 }
+if( i>= 95 && i <= 96 ){num = 95 }
+if( i== 97 ){num = 97 }
+if( i== 98 ){num = 98 }
+if( i>= 99  && i <= 107 ){num = 71 }
+if( i>= 108 && i <= 109 ){num = 108 }
+if( i>= 110 && i <= 113 ){num = 110 }
+if( i== 114 ){num = 114 }
+if( i== 115 ){num = 115 }
+if( i>= 116 && i <= 124 ){num = 116 }
+if( i>= 125 ){num = 12 }
+if( i>= 126 && i <= 127 ){num = 126 }
+if( i== 128 ){num = 128 }
+if( i== 129 ){num = 129 }
+if( i== 130 ){num = 130 }
+if( i== 131 ){num = 131 }
+if( i>= 132 && i <= 133 ){num = 132 }
+if( i== 134 ){num = 134 }
+if( i== 135 ){num = 135 }
+if( i== 136 ){num = 136 }
+if( i>= 137 && i <= 142 ){num = 137 }
+if( i== 143 ){num = 143 }
+if( i== 144 ){num = 144 }
+if( i== 145 ){num = 145 }
+if( i>= 146 && i <= 150 ){num = 146 }
+if( i== 168 ){num = 16 }
+if( i>= 169 && i <= 171 ){num = 169 }
+if( i>= 172 && i <= 178 ){num = 172 }
+if( i>= 179 && i <= 195 ){num = 183 }
+if( i>= 196 && i <= 200 ){num = 196 }
+if( i>= 201 && i <= 210 ){num = 201 }
+
+
 
 		if(!isMobile){
 			icon_array.push( L.icon({
-		   		iconUrl: 'tower/Untitled'+pad_with_zeroes(i, 4)+'.png',
+		   		iconUrl: 'tower/Untitled'+pad_with_zeroes(num, 4)+'.png',
 		   		iconSize:     [200, 200], // size of the icon
 		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
 		   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -209,7 +275,7 @@ $('.button_out').on('touchend mouseout', function(e) {
 			}
 		}else{
 			icon_array.push( L.icon({
-		   		iconUrl: 'tower_mobile/Untitled'+pad_with_zeroes(i, 4)+'.png',
+		   		iconUrl: 'tower_mobile/Untitled'+pad_with_zeroes(num, 4)+'.png',
 		   		iconSize:     [200, 200], // size of the icon
 		   		iconAnchor:   [100, 100], // point of the icon which will correspond to marker's location
 		   		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
@@ -454,6 +520,10 @@ $('.button_out').on('touchend mouseout', function(e) {
 $('.leaflet-pane.leaflet-marker-pane>img:nth-child(20)').click(function(){
         window.open('https://www.instagram.com/idiotapeofficial/');
     })
+$('.earth').click(function(){
+	if(isMobile){
+	        window.open('https://www.instagram.com/idiotapeofficial/');}
+    })
 
 function getMatrix(element) {
     const values = element.style.transform.split(/\w+\(|\);?/);
@@ -468,6 +538,8 @@ $('#map').on('touchstart mousedown', function(e) {
 
 
     if(isMobile){
+		clearTimeout(delay_interval_1)
+		clearTimeout(delay_interval_2)
     	console.log(marker_array_whole)
 		move_marker_counter = 0
 		var clicked_center = e.latlng
@@ -490,10 +562,6 @@ $('#map').on('touchend mouseup', function(e) {
     	$('#sky').css({'transform':'translate3d('+getMatrix(element)[0]+'px,'+getMatrix(element)[1]+'px, 0px)'})
     console.log('done!!')
 
-    if(isMobile){
-		clearTimeout(delay_interval_1)
-		clearTimeout(delay_interval_2)
-	}
 });
 
 
