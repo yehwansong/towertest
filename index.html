@@ -20,6 +20,7 @@
     position: fixed;
     width: 100vw;
     height: 25vh;
+    overflow:hidden;
     left: 0;
     top: 0;
     background: linear-gradient(black 95%, transparent);
@@ -35,6 +36,7 @@
         z-index: 1000000;
         width: 10vw;
         height: 10vw;
+        margin-top: -5vw;
         background-image: url(img/earth.png);
         background-size: contain;
         background-repeat: no-repeat;
@@ -128,7 +130,7 @@ var delay_interval_1
 var delay_interval_2
 var marker_array_whole
 var move_marker_counter = 0
-var original_center = [65,290]
+var original_center = [76.48720356145635,-165.68725832144608]
 		var map = L.map('map', {
   			scrollWheelZoom: false, // disable original zoom function
   			smoothWheelZoom: true,  // enable smooth zoom 
@@ -143,17 +145,16 @@ var original_center = [65,290]
 	// });
 		if(isMobile){
 		map.setZoom(5);
-
 		}
 
 var defaultLayer = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
 map.on('touchstart mousedown', function(e){
-	move_marker_counter = 0
-	var clicked_center = e.latlng
-	console.log(clicked_center)
-	delay_interval_1 = setTimeout(function(e){ 
-		move_marker(clicked_center)
-	},300)
+	// move_marker_counter = 0
+	// var clicked_center = e.latlng
+	// console.log(clicked_center)
+	// delay_interval_1 = setTimeout(function(e){ 
+	// 	move_marker(clicked_center)
+	// },300)
 });
 function move_marker(clicked_center){
 	console.log(clicked_center)
@@ -563,7 +564,10 @@ $('#map').on('touchend mouseup', function(e) {
     console.log('done!!')
 
 });
-
+$(window).resize(function() {
+    	var element =document.getElementsByClassName('leaflet-map-pane')[0]
+    	$('#sky').css({'transform':'translate3d('+getMatrix(element)[0]+'px,'+getMatrix(element)[1]+'px, 0px)'})
+});
 
 function tower(a,b,init_num,marker_counter){
 	var latLng_array = []
@@ -572,7 +576,7 @@ function tower(a,b,init_num,marker_counter){
 	var init_latlng = [a,b]
 	var timeout_counter = marker_counter
 	for (var i = marker_counter; i >= 0; i--) {
-		latLng_array.push(new L.latLng([init_latlng[0]+(i/45)*2, init_latlng[1]+(i/50)*2]));
+		latLng_array.push(new L.latLng([init_latlng[0]+(i/55)*2, init_latlng[1]+(i/50)*2]));
 	}
 	for (var i = marker_counter; i >= 0; i--) {
 		delay(i)
@@ -620,9 +624,10 @@ console.log(time)
 function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
+var h = window.innerHeight
+var w = window.innerWidth
 $('.earth').css({'left':map_range(time, 0, 1, 40, 98) + 'vw'})
-$('.earth').css({'top':map_range(time, 0, 1, 18, -5) + 'vw'})
-
+$('.earth').css({'top':map_range(time, 0, 1, (0.25*h - 0.05*w), 0) + 'px'})
 
 
 
@@ -634,7 +639,7 @@ function pad_with_zeroes(number, length) {
     return my_string;
 }
 map.on('click', function(e) {
-    location.hash = e.latlng.lng
+    location.hash =e.latlng.lat + ", " + e.latlng.lng
     console.log(e.latlng.lat + ", " + e.latlng.lng)
 });
 		// resize layers control to fit into view.
